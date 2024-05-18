@@ -1,0 +1,1 @@
+1:实现链表 : 结构体包含node and body. this node pointer to next struct
