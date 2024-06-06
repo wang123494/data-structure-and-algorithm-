@@ -1,25 +1,26 @@
 #include "function.h"
 #include <stdio.h>
 #include <stdlib.h>
-void makeEmpty(List L) {
-    List curr = L;
-    List next = curr->Next;
-    while (curr->Next != NULL) {
-        next = curr->Next;
-        free(curr);
-        curr = next;
+//在值为 head->Next的时候是 正常
+//在值为 head的时候是invalid heap pointer
+List makeEmpty(List L) {
+    Position cur = L;
+    Position next;
+    while (cur!= NULL) {
+        next = cur->Next;
+        free(cur); 
+        cur = next;
     }
+   
+    //这里c是copy by value 所以改变那个指针，如果不赋值的话
+    //就是用void的话，不会将原来的指针改变。
     L = NULL;
+    return L;
 }
 
+//right
 int  isEmpty(List L) {
-    if (L->Next == NULL) {
-        return 1;
-    }
-    else {
-        return 0;
-    }
-    return -1;
+    return L->Next == NULL;
 }
 
 int isLast(Position P, List L) {
@@ -42,7 +43,7 @@ int isLast(Position P, List L) {
     }
     return -1;
 }
-
+//insert the value 
 void insert(int x, List L, Position P) {
     Position tmpCell;
     tmpCell = (Position)malloc(sizeof(struct Node));
@@ -52,4 +53,64 @@ void insert(int x, List L, Position P) {
     tmpCell->element = x;
     tmpCell->Next = P->Next;
     P->Next = tmpCell;
+}
+//find the first node that the valid is x in the List L
+Position Find(int x, List L) {
+    Position P = L;
+    while (P != NULL && P->element != x) {
+        //这里不用if，直接while里判断
+        //if (P->element != x)
+            P = P->Next;
+    }
+ 
+    return P;
+}
+
+Position FindPrevious(int x, List L) {
+    Position p = L;
+    while (p != NULL && p->Next->element != x) {
+        p = p->Next;
+    }
+    return p;
+}
+
+void Delete(int x, List L) {
+    Position p = FindPrevious(x,L);
+    //这里直接可以用findPre的内容，就不用多次调用了
+   /* while (p->element != x && p != NULL)
+    {
+        p = p->Next;
+    }
+    Position New   =  FindPrevious(x, L);
+    New->Next = p -> Next;
+    free(p);*/
+    Position tmpCell = p->Next;
+    if (!isLast(p, L)) {
+        p->Next = tmpCell->Next;
+        //直接将指向的这块内容释放掉就可以了
+        free(tmpCell);
+    }
+
+}
+
+
+void DeleteList(List L) {
+    Position P, Tmp;
+    P = L;
+    L = NULL;
+    while(P != NULL) {
+        Tmp = P->Next;
+        free(P);
+        P = Tmp;
+    }
+}
+
+Position Advance(Position P) {
+    if(P != NULL)
+        return P->Next;
+    return NULL;
+}
+
+int Retrieve(Position P) {
+    return P->element;
 }
