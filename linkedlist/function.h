@@ -31,6 +31,8 @@ Position FindPrevious(int x, List L);
 void DeleteList(List L);
 Position Advance(Position P);
 int Retrieve(Position P);
+PtrToNode
+create_node(int x);
 #endif /*_function_h*/
 
 

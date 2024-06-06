@@ -114,3 +114,18 @@ Position Advance(Position P) {
 int Retrieve(Position P) {
     return P->element;
 }
+
+PtrToNode
+create_node(int x)
+{
+    PtrToNode tmp_node;
+
+    tmp_node = malloc(sizeof(struct Node));
+    if (tmp_node == NULL) {
+        fprintf(stderr,"out of the space!\n");
+        return NULL;
+    }
+    tmp_node->element = x;
+    tmp_node->Next = NULL;
+    return tmp_node;
+}
