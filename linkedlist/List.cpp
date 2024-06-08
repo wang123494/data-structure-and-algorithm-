@@ -120,7 +120,7 @@ create_node(int x)
 {
     PtrToNode tmp_node;
 
-    tmp_node = malloc(sizeof(struct Node));
+    tmp_node = (PtrToNode)malloc(sizeof(struct Node));
     if (tmp_node == NULL) {
         fprintf(stderr,"out of the space!\n");
         return NULL;
